@@ -63,6 +63,16 @@ class UberProxyController < ActionController::API
     }, status: 200
   end
 
+  def get_user_from_barcode
+    req_body = {
+      method: 'barcode.lookup_attendee_from_barcode',
+      params: [params[:barcode]]
+    }
+    render json: {
+      result: call_uber(req_body)
+    }, status: 200
+  end
+
   private
 
   def call_uber(request_body)
