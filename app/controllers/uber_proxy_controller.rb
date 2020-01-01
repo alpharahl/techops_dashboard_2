@@ -40,7 +40,7 @@ class UberProxyController < ActionController::API
         params[:shift_id],
         59709335,
         54944008,
-        "Shift marked automatically by techops dashboard"
+        "Shift marked automatically by techops dashboard on account #{params[:user]}"
       ]
     }
     render json: {
@@ -71,6 +71,22 @@ class UberProxyController < ActionController::API
     render json: {
       result: call_uber(req_body)
     }, status: 200
+  end
+
+  def admin_login
+    # "/accounts/login", data={"email": email, "password": password, "original_location": "homepage"})
+    RestClient::Request.execute(
+      method: :post,
+      url: "https://onsite.reggie.magfest.org/accounts/login",
+      data: {
+        email: params[:email],
+        password: params[:password],
+        original_location: "homepage"
+      }
+    ) do |response, request, result|
+      Rails.logger.info("response #{response.code}, request: #{request.inspect}, result: #{result.inspect}")
+      render status: response.code, text: result
+    end
   end
 
   private

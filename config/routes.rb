@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       post :mark_shift_worked
       post :mark_shift_not_worked
       get :get_user_from_barcode
+      post :admin_login
     end
   end
 end
